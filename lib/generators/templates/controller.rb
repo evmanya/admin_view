@@ -3,8 +3,8 @@ class Admin::<%= controller_class_name %>Controller < Admin::BaseController
   before_filter :find_<%= singular_table_name %>, :only => [:show, :edit, :update, :destroy, :move_up, :move_down, :move_to_top, :move_to_bottom]
 
   def index
-    return redirect_to session[:filter_<%= plural_table_name %>] if session[:filter_<%= plural_table_name %>] && params[:back] == "true"
-    session[:filter_<%= plural_table_name %>] = request.original_url unless request.original_url.include?(".xls")
+    #return redirect_to session[:filter_<%= plural_table_name %>] if session[:filter_<%= plural_table_name %>] && params[:back] == "true"
+    #session[:filter_<%= plural_table_name %>] = request.original_url unless request.original_url.include?(".xls")
 
     @q = <%= class_name %>.search(params[:q])
     @<%= plural_table_name %> = @q.result.order("id desc")
@@ -56,7 +56,7 @@ class Admin::<%= controller_class_name %>Controller < Admin::BaseController
     if @<%= singular_table_name %>.destroy
       redirect_to admin_<%= plural_table_name %>_path(back: true), :notice => "Kayıt başarıyla silindi."
     else
-      redirect_to admin_<%= plural_table_name %>_path(back: true), :error => "Kayıt silinemedi."
+      redirect_to admin_<%= plural_table_name %>_path(back: true), :alert => "Kayıt silinemedi."
     end
   end
 
